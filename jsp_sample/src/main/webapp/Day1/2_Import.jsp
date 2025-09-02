@@ -7,10 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- 자바에서 처럼 외부클래스는 import 해 서사요해야됨 -->
-	<!--자바랑 import 방법 이 차이가있다. html에서 작성해야하기떄문  -->
-	<%-- <%@ page import="java.utill.Date" %> --%>
+	<!-- 자바에서 처럼 외부 클래스는 import를 해서 사용해야 한다 -->
+	<!-- 자바랑 import방법이 차이가 있다. html에서 작성해야하기 때문에 -->
 	
-	<%-- <%= (new Date()).toLocaleString() %> --%>
+	<%@ page import="java.util.Date" %>
+	<%= (new Date()).toLocaleString() %>
+
+
+
 </body>
 </html>
