@@ -63,6 +63,7 @@
 			<div>
 				<!-- <input type="submit" value="삭제"> -->
 				<input type="button" value="삭제" onclick="fnRemove()">
+				<input type="button" value="수정" onclick="fnEdit(<%=rs.getString("STU_NO") %>)">
 			</div>
 		</form>
 	</div>
@@ -82,4 +83,10 @@
 		
 		board.submit();
 	}
+	
+	function fnEdit(stuNo){
+		location.href="Stu-Edit.jsp?stuNo="+stuNo;
+		
+	}
+	
 </script>

@@ -61,6 +61,9 @@
 		
 		%>
 		</table>
+		<div>
+			<button onclick="fnAdd()">추가</button>
+		</div>
 	</div>
 </body>
 </html>
@@ -74,5 +77,8 @@
 		location.href="Stu-List.jsp?keyword="+keyword;
 	}
 	
+	function fnAdd(){
+		location.href="Stu-Add.jsp";
+	}
 
 </script>
