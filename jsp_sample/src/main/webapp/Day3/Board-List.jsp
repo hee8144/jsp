@@ -39,7 +39,8 @@
 	<div id="container">
 		<div class="search">
 			검색어:
-			<input type="text" id="keyword">
+			<%String keyword = request.getParameter("keyword"); %>
+			<input type="text" id="keyword" value="<%= keyword !=null ? keyword:"" %>">
 			<button onclick="fnSearch()">검색</button>		
 		</div>
 		<div class="search">
@@ -80,7 +81,7 @@
 		<%
 			/* 키워드*/
 			ResultSet rs=null;
-			String keyword = request.getParameter("keyword");
+			
 			String keywordQuery="";
 			if(keyword!=null){
 				keywordQuery ="WHERE TITLE LIKE '%"+keyword+"%' ";
@@ -106,13 +107,14 @@
 			/*현제 페이지 위치에따라 가져올 값을 정하기 위해 offset 구하기*/
 			int offset = pageSize*(currentPage-1);
 			
-			String cntQuery ="SELECT COUNT(*) TOTAL FROM TBL_BOARD";
+			String cntQuery ="SELECT COUNT(*) TOTAL FROM TBL_BOARD "+keywordQuery + oderQuery;
 			ResultSet rsCnt=stmt.executeQuery(cntQuery);
 			rsCnt.next();
 			
 			int total = rsCnt.getInt("TOTAL");
-			
 			int pageList = (int)Math.ceil((double)total / pageSize);
+			
+			
 			
 			/**/
 			String query = "SELECT B.* ,TO_CHAR(CDATETIME,'YYYY-MM-DD') CTIME FROM TBL_BOARD B "+keywordQuery +oderQuery
@@ -144,18 +146,28 @@
 			<%
 				for(int i =1; i<=pageList;i++){
 					if(i == currentPage){
-						out.println("<a href='?page="+i+"&size="+pageSize+"'class='active'> "+ i +"</a>");
+						out.println("<a href='?keyword="+keyword+"&page="+i+"&size="+pageSize+"'class='active'> "+ i +"</a>");
 					}else{
-						out.println("<a href='?page="+i+"&size="+pageSize+"'> "+ i +"</a>");
+						out.println("<a href='?keyword="+keyword+"&page="+i+"&size="+pageSize+"'> "+ i +"</a>");
 						
 					}
 				}
 			%>
 		</div>
 	</div>
+	<input id="pageSize" value="<%= pageSize %>" hidden>
 </body>
-</html>
+</html>	
 <script>
+	let size = document.querySelector("#pageSize").value;
+	let selectList = document.querySelector("#number");
+	for(let i =0; i<selectList.length;i++){
+		if(selectList[i].value == size){
+		selectList[i].selected=true;
+		console.log(selectList[i].value)
+		}
+		
+	}
 	
 	function fnBoard(boardNo){
 		location.href="Board-View.jsp?boardNo="+boardNo;
@@ -163,7 +175,8 @@
 	
 	function fnSearch(){
 		let keyword =document.querySelector("#keyword").value;	
-		location.href="Board-List.jsp?keyword="+keyword;
+		let pageSize = document.querySelector("#pageSize").value;		
+		location.href="Board-List.jsp?keyword="+keyword+"&size="+pageSize;
 	}
 	
 	function fnAdd(){
@@ -171,7 +184,9 @@
 	}
 	
 	function fnList(column,orderKind){
-		location.href="?column="+column+"&orderKind="+orderKind;
+		let keyword =document.querySelector("#keyword").value;
+		let pageSize = document.querySelector("#pageSize").value;
+		location.href="?keyword="+keyword+"&column="+column+"&orderKind="+orderKind+"&size="+pageSize;
 	}
 	
 	function fnNumber(number){

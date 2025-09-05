@@ -34,7 +34,7 @@
 	<%
 		ResultSet rs =null;
 		String stuNo = request.getParameter("stuNo");
-		String query = "SELECT STU_NAME ,S.STU_NO,STU_DEPT,AVG(ENR_GRADE) AVG FROM STUDENT S INNER JOIN ENROL E ON S.STU_NO = E.STU_NO WHERE S.STU_NO='"+stuNo
+		String query = "SELECT STU_NAME ,S.STU_NO,STU_DEPT,AVG(ENR_GRADE) AVG FROM STUDENT S LEFT JOIN ENROL E ON S.STU_NO = E.STU_NO WHERE S.STU_NO='"+stuNo
 				+"' GROUP BY STU_NAME,S.STU_NO,STU_DEPT";
 		rs=stmt.executeQuery(query);
 		if(rs.next()){
